@@ -18,8 +18,7 @@ router.get('/cat', (req, res) => {
     
     
 router.post('/', upload.single('cat'), (req, res) => {
-    console.log(req.body, req.file);
-    res.send('With this endpoint you can add cats.')
+    
 });
 
 router.put('/', (req, res) => {
