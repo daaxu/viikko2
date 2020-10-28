@@ -6,7 +6,7 @@ const userModel = require('../models/userModel');
 const users = userModel.users;
 
 const user_list_get = (req, res) => {
-  const newUsers = users.map(usr => delete usr.password);
+  users.map(usr => delete usr.password);
   res.json(newUsers);
 };
 
