@@ -3,8 +3,10 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const userModel = require('../models/userModel');
 const passportJWT = require('passport-jwt');
+const bcrypt = require('bcryptjs');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
+
 
 // local strategy for username password login
 passport.use(new Strategy(
@@ -14,10 +16,10 @@ passport.use(new Strategy(
         const [user] = await userModel.getUserLogin(params);
         console.log('Local strategy', user); // result is binary row
         if (user === undefined) {
-          return done(null, false, {message: 'Incorrect email.'});
+          return done(null, false, {message: 'Incorrect email or password.'});
         }
-        if (user.password !== password) {
-          return done(null, false, {message: 'Incorrect password.'});
+        if (!bcrypt.compareSync(password, user.password)) {
+          return done(null, false, {message: 'Incorrect email or password.'});
         }
         return done(null, {...user}, {message: 'Logged In Successfully'}); // use spread syntax to create shallow copy to get rid of binary row type
       }
@@ -29,7 +31,7 @@ passport.use(new Strategy(
 // TODO: JWT strategy for handling bearer token
 passport.use(new JWTStrategy({
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'ilkkamtk',
+      secretOrKey: 'aleksknu',
     },
     async (jwtPayload, done) => {
       //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.

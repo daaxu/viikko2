@@ -47,3 +47,5 @@ body('owner', 'syötä numero').isLength({min: 1}).isNumeric(), catController.ca
 router.delete('/id', catController.cat_delete);
 
 module.exports = router;
+
+

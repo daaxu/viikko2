@@ -24,7 +24,7 @@ const getCat = async (id) => {
   } 
 };
 
-const addCat = async (id) => {
+const addCat = async (params) => {
   try {
     const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, age, weight, owner, filename) VALUES (?,?,?,?,?)', params);
     return rows;
